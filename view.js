@@ -53,7 +53,7 @@ function renderDetails(bookId) {
     const starRatingHtml = `
         <div class="stars">
             ${[1, 2, 3, 4, 5].map(n => `
-                <span onclick="gfg(${n}, ${bookId})" class="star ${n <= book.rating ? 'filled' : ''}">★</span>
+                <span onclick="renderStarsRating(${n}, ${bookId})" class="star ${n <= book.rating ? 'filled' : ''}">★</span>
             `).join('')}
             <h3 id="output">Rating is: ${book.rating}/5</h3>
         </div>
@@ -62,8 +62,8 @@ function renderDetails(bookId) {
     bookContainer.innerHTML = 
         `<div class="book-card">
             <p class="card-title">${book.title}</p>
+            <img src="${book.imageUrl}" alt="${book.title}">       
             <div class="card-details">
-                <img src="${book.imageUrl}" alt="${book.title}">
                 <div class="text-container">
                     <p>Price: $${book.price}</p>
                     ${starRatingHtml} <!-- Insert star rating HTML -->
@@ -71,7 +71,7 @@ function renderDetails(bookId) {
             </div>
         </div>`;
 
-    gfg(book.rating, bookId); // initialize the star rating
+    renderStarsRating(book.rating, bookId); // initialize the star rating
 }
 
 //========functios to handle the pop up window========
@@ -85,7 +85,7 @@ function openPopUpForCreate() {
     document.getElementById('book-price').value = '';
     document.getElementById('stars-container').innerHTML =`<div class="stars">
     ${[1, 2, 3, 4, 5].map(n => `
-        <span onclick="gfg(${n})" class="star">★</span>
+        <span onclick="gfg(${n})" class="star star-pop-up">★</span>
     `).join('')}
     </div>`;
     document.getElementById('book-image-url').value = '';
@@ -123,7 +123,7 @@ let output =
     document.getElementById("output");
 
 // Function to update rating
-function gfg(n, bookId) {
+function renderStarsRating(n, bookId) {
     const stars = document.getElementsByClassName("star");
     const output = document.getElementById("output");
 
@@ -148,7 +148,7 @@ function gfg(n, bookId) {
     }
 }
 
-function gfg(n) {
+function gfg1(n) {
     const stars = document.getElementsByClassName("star-pop-up");
 
     remove(); // Remove previous star styles

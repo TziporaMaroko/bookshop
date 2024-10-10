@@ -42,10 +42,51 @@ button:hover {
     flex: 0 0 60%; 
 }
 
-.selected-book-area {
-    flex: 0 0 30%;
-    border: 1px solid #ddd;
-    padding: 10px;
+.book-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+    white-space: nowrap;
+}
+
+.card-details {
+    display: flex;
+    align-items: center;
+}
+
+.book-card img {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 0px 10px 10px 0px;
+    margin-right: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Text Container */
+.text-container {
+    flex-grow: 1;
+}
+
+/* Price */
+.text-container p {
+    margin: 5px 10px 10px 0;
+    color: #555;
+    font-size: 0.9rem;
 }
 
 .table{
@@ -165,26 +206,26 @@ form input[type="number"] {
 }
 
 .star {
-  font-size: 5vh;
-  cursor: pointer;
+    font-size: 5vh;
+    cursor: pointer;
 }
- 
+
 .one {
-  color: rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
 }
- 
+
 .two {
-  color: rgb(255, 106, 0);
-}
- 
+    color: rgb(255, 106, 0);
+}  
+
 .three {
-  color: rgb(251, 255, 120);
+    color: rgb(251, 255, 120);
 }
- 
+
 .four {
-  color: rgb(255, 255, 0);
+    color: rgb(255, 255, 0);
 }
- 
+
 .five {
-  color: rgb(24, 159, 14);
+    color: rgb(24, 159, 14);
 }
