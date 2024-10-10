@@ -3,8 +3,8 @@ function createBook(event){
 
 }
 
-function readBook(event){
-
+function getBook(id){
+    return books.find(book => book.id === id);
 }
 
 function updateBook(event){
@@ -12,7 +12,9 @@ function updateBook(event){
 }
 
 function deleteBook(id){
-
+    books = books.filter(book => book.id !== id);  
+    saveObjToLS('books', books);  
+    renderBooks(books);  
 }
 
 function getObjFromLS(key) {
