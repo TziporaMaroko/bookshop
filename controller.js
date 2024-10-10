@@ -1,4 +1,5 @@
 let books;
+let currentBookId;
 function createBook({title, price, imageUrl, rating}){
     const id = books.length ? books[books.length - 1].id + 1 : 1;
     const newBook = { id, title, price, imageUrl, rating };
@@ -34,7 +35,8 @@ function updateBook({ id, title, price, imageUrl, rating }){
 function deleteBook(id){
     books = books.filter(book => book.id !== id);  
     saveObjToLS('books', books);  
-    renderBooks(books);  
+    renderBooks(books); 
+    renderEmptyBookDetails(); 
 }
 
 function getObjFromLS(key) {
@@ -65,3 +67,40 @@ function saveBook(event) {
     }
 }
 
+const loadDumpData = ()=> {
+    books = Gbooks;
+    saveObjToLS('books', books);
+    renderBooks(books);
+}
+// stuff to handle the sort functionality
+let isTitleSorted = false; 
+let isPriceSorted = false; 
+
+const sortByTitle = ()=> {
+    if (!isTitleSorted) {
+        books.sort((a, b) => a.title.localeCompare(b.title));
+        isTitleSorted = true;
+        isPriceSorted = false;
+    } else {
+        resetBooks(); // Reset to original unsorted state
+        isTitleSorted = false; 
+    }
+    renderBooks(books); 
+};
+
+const sortByPrice = ()=> {
+    if (!isPriceSorted) {
+        books.sort((a, b) => a.price - b.price);
+        isPriceSorted = true;
+        isTitleSorted = false; 
+    } else {
+        resetBooks(); 
+        isPriceSorted = false; 
+    }
+    renderBooks(books); 
+}
+
+function resetBooks() {
+    books = getObjFromLS('books'); 
+    renderBooks(books);
+}

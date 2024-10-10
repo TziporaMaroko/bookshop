@@ -1,5 +1,5 @@
 let currentPage = 1;
-const booksPerPage = 10;
+const booksPerPage = 8;
 
 //function to return only the books on a given page
 function paginateBooks(books, page) {
@@ -52,26 +52,25 @@ function renderDetails(bookId) {
     // Generate star rating HTML based on the book rating
     const starRatingHtml = `
         <div class="stars">
-            ${[1, 2, 3, 4, 5].map(n => `
-                <span onclick="renderStarsRating(${n}, ${bookId})" class="star ${n <= book.rating ? 'filled' : ''}">★</span>
-            `).join('')}
-            <h3 id="output">Rating is: ${book.rating}/5</h3>
+        ${[1, 2, 3, 4, 5].map(n => `
+            <span onclick="renderStarsRating(${n}, ${bookId})" class="star ${n <= book.rating ? 'filled' : ''}">★</span>
+        `).join('')}
+        <h3 id="output">Rating is: ${book.rating}/5</h3>
         </div>
     `;
 
     bookContainer.innerHTML = 
-        `<div class="book-card">
-            <p class="card-title">${book.title}</p>
-            <img src="${book.imageUrl}" alt="${book.title}">       
-            <div class="card-details">
-                <div class="text-container">
-                    <p>Price: $${book.price}</p>
-                    ${starRatingHtml} <!-- Insert star rating HTML -->
-                </div>
+        `<p class="card-title">${book.title}</p>
+        <img src="${book.imageUrl}" alt="${book.title}">       
+        <div class="card-details">
+            <div class="text-container">
+                <p>Price: $${book.price}</p>
+                ${starRatingHtml} <!-- Insert star rating HTML -->
             </div>
         </div>`;
 
     renderStarsRating(book.rating, bookId); // initialize the star rating
+    saveObjToLS('book-details', bookId); 
 }
 
 //========functios to handle the pop up window========
@@ -128,7 +127,7 @@ function renderStarsRating(n, bookId) {
     const output = document.getElementById("output");
 
     remove(); // Remove previous star styles
-
+    let cls;
     for (let i = 0; i < n; i++) {
         if (n == 1) cls = "one";
         else if (n == 2) cls = "two";
@@ -148,22 +147,6 @@ function renderStarsRating(n, bookId) {
     }
 }
 
-function gfg1(n) {
-    const stars = document.getElementsByClassName("star-pop-up");
-
-    remove(); // Remove previous star styles
-
-    for (let i = 0; i < n; i++) {
-        if (n == 1) cls = "one";
-        else if (n == 2) cls = "two";
-        else if (n == 3) cls = "three";
-        else if (n == 4) cls = "four";
-        else if (n == 5) cls = "five";
-        stars[i].className = "star " + cls;
-    }
-}
-
-
 // To remove the pre-applied styling
 function remove() {
     const stars = document.getElementsByClassName("star");
@@ -176,4 +159,8 @@ function setRating(value) {
     const ratingInput = document.getElementById('book-rating');
     ratingInput.value = value; // Update the hidden input with the selected rating
     gfg(value); // Update the star rating
+}
+
+function renderEmptyBookDetails(){
+    document.getElementById('selected-book-area').innerHTML = `<h2>No book selected:(</h2>`;
 }

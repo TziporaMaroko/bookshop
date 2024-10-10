@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Book shop</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Monoton&display=swap" rel="stylesheet">
 </head>
@@ -11,22 +11,29 @@
     <div>
         <header class="header">
             <h1 class="title">Hello Book Lovers!</h1>
+            <div class="bar">
+                <a onclick="openPopUpForCreate()">Add New Book</a>
+                <a onclick="loadDumpData()">Load Data</a>
+            </div>
         </header>
-        <button onclick="openPopUpForCreate()">Add New Book</button>
         <div class="main-container">  
             <div id="books-container" class="book-list-container">
                 <div class="book-list-header table">
                     <div>Id</div>
-                    <div>Title</div>
-                    <div>Price</div>
+                    <div class="sort-button tooltip-btn" onclick="sortByTitle()">Title
+                        <span class="tooltip-text">Sort by title</span>
+                    </div>
+                    <div class="sort-button tooltip-btn" onclick="sortByPrice()">Price
+                        <span class="tooltip-text">Sort by price</span>
+                    </div>
                     <div>Action</div>
                     <div>Action</div>
                 </div>
                 <div id="book-list-container"></div>
                 <div id="pagination-controls" class="pagination"></div>
             </div>
-            <div id="selected-book-area" class="selected-book-area">
-                <h1>Oops.. No book selected yet:(</h1>
+            <div id="selected-book-area" class="book-card">
+                <h2>Oops.. No book selected yet:(</h2>
             </div>
         </div>
         <footer class="footer">
