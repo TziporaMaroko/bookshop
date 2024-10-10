@@ -12,6 +12,7 @@
         <header class="header">
             <h1 class="title">Hello Book Lovers!</h1>
         </header>
+        <button onclick="openPopUpForCreate()">Add New Book</button>
         <div class="main-container">  
             <div id="books-container" class="book-list-container">
                 <div class="book-list-header table">
@@ -30,6 +31,28 @@
         </div>
         <footer class="footer">
         </footer>
+    </div>
+    <!-- Pop-up window for create and update -->
+    <div id="book-window" class="pop-up-window">
+        <div class="pop-up-content">
+            <span class="close" onclick="closePopUp()">&times;</span>
+            <h2 id="pop-up-title">Add New Book</h2>
+            <form id="book-form" onsubmit="saveBook(event)">
+                <input type="hidden" id="book-id" />
+                <label for="book-title">Title:</label>
+                <input type="text" id="book-title" placeholder="Enter book title" required />
+                <label for="book-price">Price:</label>
+                <input type="number" id="book-price" placeholder="Enter book price" step="0.01" required /> <!-- Allow decimal values -->
+                <label for="book-rating">Rating:</label>
+                <div id="stars-container">
+                    
+                </div>
+                <input type="hidden" id="book-rating" /> <!-- Hidden input to hold the selected rating value -->
+                <label for="book-image-url">Image Url:</label>
+                <input type="text" id="book-image-url" placeholder="Enter image url" required />
+                <button type="submit">Save</button>
+            </form>
+        </div>
     </div>
     <script src="view.js"></script>
     <script src="dump.js"></script>
