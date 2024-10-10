@@ -1,3 +1,11 @@
 *{
     box-sizing: border-box;
 }
+
+
+
+.table {
+    display: grid;
+    grid-template-columns: 5% 40% 25% 10% 10% 10%;
+}
+ 
