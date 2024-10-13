@@ -192,8 +192,7 @@ button:hover {
 
 /* Pop up window classes */
 .pop-up-window {
-    visibility: hidden;
-    display: flex;
+    display: hidden;
     justify-content: center;
     align-items: center; 
     position: fixed; 
