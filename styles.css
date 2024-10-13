@@ -1,4 +1,5 @@
-*{
+/* Global Styles */
+* {
     box-sizing: border-box;
 }
 
@@ -8,17 +9,21 @@ body {
     font-family: 'Outfit', sans-serif;
 }
 
-:lang(he) {
-    font-family: "Fredoka", sans-serif;font-family: 'Alef', sans-serif;
+/* Typography */
+h1 {
+    font-size: 2rem;
+    margin: 0;
+    padding: 20px;
 }
 
+/* Buttons */
 button {
     padding: 10px 20px;
     margin-bottom: 10px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    background-color:dodgerblue;
+    background-color: dodgerblue;
     color: white;
     font-family: 'Outfit', sans-serif;
 }
@@ -26,20 +31,16 @@ button {
 button:hover {
     background-color: darkblue;
 }
-.header{
+
+/* Layout */
+.header {
     background-color: #333;
     color: white;
     text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
-.header h1 {
-    font-size: 2rem;
-    margin: 0;
-    padding: 20px;
-}
-
-.bar{
+.bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,6 +48,15 @@ button:hover {
     background-color: #555;
 }
 
+.main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    gap: 20px;
+}
+
+/* Navigation */
 .bar a {
     color: white;
     text-decoration: none;
@@ -54,23 +64,47 @@ button:hover {
 }
 
 .bar a:hover {
-    color:deepskyblue;
+    color: deepskyblue;
     cursor: pointer;
 }
 
-.main-container {
-    display: flex;
-    flex-direction: row;
-    justify-content:space-around;
-    width: 100%;
-    gap: 20px;
-}
-
+/* Book List */
 .book-list-container {
     margin: 20px;
-    flex: 0 0 60%; 
+    flex: 0 0 60%;
 }
 
+.sort-button:hover{
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.table {
+    display: grid;
+    grid-template-columns: 10% 40% 25% 15% 10%;
+    padding: 0 0 0 20px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table a {
+    line-height: 3.2;
+}
+
+.table a:hover {
+    color: dodgerblue;
+    cursor: pointer;
+}
+
+.book-list-header {
+    font-weight: bold;
+    padding: 20px;
+    background-color: rgb(71, 163, 255);
+    color: #333;
+}
+
+/* Book Card */
 .book-card {
     display: flex;
     flex-direction: column;
@@ -101,52 +135,22 @@ button:hover {
     width: 200px;
     height: 300px;
     object-fit: cover;
-    border-radius: 0px 10px 10px 0px;
+    border-radius: 0 10px 10px 0;
     margin-right: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Text Container */
 .text-container {
     flex-grow: 1;
 }
 
-/* Price */
 .text-container p {
     margin: 5px 10px 10px 0;
     color: #555;
     font-size: 0.9rem;
 }
 
-.table{
-    padding: 0 0 0 20px;
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-.table a{
-    line-height:3.2;
-}
-.table a:hover{
-    color:dodgerblue;
-    cursor:pointer;
-    
-}
-.table {
-    display: grid;
-    grid-template-columns: 10% 40% 25% 15% 10%;
-}
-.book-list-header{
-    font-weight: bold;
-    padding: 20px;
-    background-color:rgb(71, 163, 255);
-    color: #333;
-}
-.sort-button:hover{
-    color: #ffffff;
-    cursor: pointer;
-    
-}
+/* Pagination */
 .pagination {
     display: flex;
     justify-content: center;
@@ -169,11 +173,12 @@ button:hover {
 
 .pagination .current-page {
     background-color: dodgerblue;
-    color: white; 
-    font-weight: bold; 
-    pointer-events: none; /* Prevent clicking on the current page */
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
 }
 
+/* Tooltip */
 .tooltip-btn {
     position: relative;
     cursor: pointer;
@@ -182,14 +187,14 @@ button:hover {
 .tooltip-text {
     visibility: hidden;
     width: 120px;
-    background-color:#555;
+    background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 5px;
     padding: 5px;
     position: absolute;
     z-index: 1;
-    bottom: 125%; /* Positions the tooltip above the text */
+    bottom: 125%;
     transform: translateX(-50%);
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
@@ -201,7 +206,7 @@ button:hover {
     opacity: 1;
 }
 
-/* Pop up window classes */
+/* Pop up window */
 .pop-up-window {
     display:none;
     justify-content: center;
@@ -236,27 +241,6 @@ button:hover {
     margin: 0;
 }
 
-form{
-    display:flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-form input[type="text"] {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 100%; 
-    border-radius: 5px; 
-    font-family: 'Outfit', sans-serif;
-}
-form input[type="number"] {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 100%; 
-    border-radius: 5px; 
-    font-family: 'Outfit', sans-serif;
-}
-
 .close {
     align-self: flex-end;
     padding: 5px 20px;
@@ -273,59 +257,53 @@ form input[type="number"] {
     cursor: pointer;
 }
 
-/* stars style */
+/* Forms */
+form{
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+form input[type="text"],
+form input[type="number"] {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Star Rating */
 .stars {
     background: #fff;
     margin: 0 1rem;
 }
 
-.star, .star-pop-up {
+.star,
+.star-pop-up {
     font-size: 5vh;
     cursor: pointer;
 }
 
-.one {
-    color: rgb(255, 0, 0);
-}
+.one { color: rgb(255, 0, 0); }
+.two { color: rgb(255, 106, 0); }
+.three { color: rgb(251, 255, 120); }
+.four { color: rgb(255, 255, 0); }
+.five { color: rgb(24, 159, 14); }
 
-.two {
-    color: rgb(255, 106, 0);
-}  
-
-.three {
-    color: rgb(251, 255, 120);
-}
-
-.four {
-    color: rgb(255, 255, 0);
-}
-
-.five {
-    color: rgb(24, 159, 14);
-}
-
+/* Language Selector */
 .language-selector {
     padding: 5px;
     border-radius: 5px;
-    background-color: #f9f9f9; 
-    font-size: 16px; 
-    color: #333; 
-    appearance: none; 
+    background-color: #f9f9f9;
+    font-size: 16px;
+    color: #333;
+    appearance: none;
     cursor: pointer;
-}
-
-.language-selector::after {
-    padding: 5px;
-    border-radius: 5px;
-    background-color: #f9f9f9; 
-    font-size: 16px; 
-    color: #333; 
     border: none;
-    appearance: none; 
-    cursor: pointer;
 }
 
 .language-selector option {
-    background-color: #fff; 
+    background-color: #fff;
     color: #333;
 }

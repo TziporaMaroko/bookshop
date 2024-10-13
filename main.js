@@ -12,7 +12,10 @@ function main(){
     if (currentBookId != null) {
         renderDetails(Number(currentBookId));
     } 
-    
+    // language translation check and apply
+    const language = localStorage.getItem('preferredLanguage') || 'en';
+    document.getElementById('language-select').value = language;
+    translatePage(language); 
 } 
 
 main();

@@ -8,6 +8,7 @@ function paginateBooks(books, page) {
     return books.slice(startIndex, endIndex);
 }
 
+//function to render the details of a given book
 function getBookRow(book) {
     return `
         <div class="table">
@@ -20,17 +21,15 @@ function getBookRow(book) {
     `;
 }
 
+//function to render the books on the page
 function renderBooks(books) {
     const paginatedBooks = paginateBooks(books, currentPage);
     const bookContainer = document.getElementById('book-list-container');
-    bookContainer.innerHTML="";
-    paginatedBooks.forEach(book => {
-        bookContainer.innerHTML += getBookRow(book);
-    });
-
+    bookContainer.innerHTML = paginatedBooks.map(getBookRow).join('');
     renderPaginationControls(books.length);
 }
 
+//functions for pagination:
 function renderPaginationControls(totalBooks) {
     const totalPages = Math.ceil(totalBooks / booksPerPage);
     const paginationContainer = document.getElementById('pagination-controls');
@@ -48,21 +47,11 @@ function goToPage(page) {
     renderBooks(books);
 }
 
+//function to render a book details 
 function renderDetails(bookId) {
     book= getBook(bookId);
     const bookContainer = document.getElementById('selected-book-area');
-    // Generate star rating HTML based on the book rating
-    const starRatingHtml = `
-        <div class="stars">
-        ${[1, 2, 3, 4, 5].map(n => `
-            <span onclick="renderStarsRating(${n}, ${bookId})" class="star ${n <= book.rating ? 'filled' : ''}">★</span>
-        `).join('')}
-        <h3 id="output">
-            <span data-translate="ratingLabel">Rating is:</span> <span id="book-rating-output">${book.rating}/5</span>
-        </h3>        
-        </div>
-    `;
-
+    const starRatingHtml = generateStarRatingHtml(book.id);
     bookContainer.innerHTML = 
         `<p class="card-title">${book.title}</p>
         <img src="${book.imageUrl}" alt="${book.title}">       
@@ -77,8 +66,24 @@ function renderDetails(bookId) {
     saveObjToLS('book-details', bookId); 
 }
 
-//========functios to handle the pop up window========
+function generateStarRatingHtml(bookId) {
+    return `
+        <div class="stars">
+        ${[1, 2, 3, 4, 5].map(n => `
+            <span onclick="renderStarsRating(${n}, ${bookId})" class="star ${n <= book.rating ? 'filled' : ''}">★</span>
+        `).join('')}
+        <h3 id="output">
+            <span data-translate="ratingLabel">Rating is:</span> <span id="book-rating-output">${book.rating}/5</span>
+        </h3>        
+        </div>
+    `;
+}
 
+function renderEmptyBookDetails() {
+    document.getElementById('selected-book-area').innerHTML = `<h2>No book selected:(</h2>`;
+}
+
+//---------functios to handle the pop up windw-----------
 //function to open a new window for creating a new book 
 function openPopUpForCreate() {
     document.getElementById('pop-up-title').innerText = "Add New Book";
@@ -119,12 +124,7 @@ function closePopUp() {
     document.getElementById('book-window').style.display = 'none'; 
 }
 
-
-
-
-
-
-// stuff to handle the star rating
+// ----------functions to handle the star rating-----------
 // Function to update rating
 function renderStarsRating(n, bookId) {
     const stars = document.getElementsByClassName("star");
@@ -141,16 +141,17 @@ function renderStarsRating(n, bookId) {
         stars[i].className = "star " + cls;
     }
     
-    output.innerText =  n + "/5"; // Update the rating text
+    output.innerText =  n + "/5"; 
 
     // Update the book's rating in the global books array
     const bookIndex = books.findIndex(book => book.id === bookId);
     if (bookIndex !== -1) {
-        books[bookIndex].rating = n; // Update the rating
-        saveObjToLS('books', books); // Save updated books list to local storage
+        books[bookIndex].rating = n; 
+        saveObjToLS('books', books); 
     }
 }
 
+// Function to update rating when clicked in the pop-up window
 function renderStarsForPopUpWindow(n) {
     const stars = document.getElementsByClassName("star-pop-up");
     const hiddenRating = document.getElementById("book-rating");
@@ -169,7 +170,7 @@ function renderStarsForPopUpWindow(n) {
     hiddenRating.value = n; // Update the hidden input with the selected rating
 }
 
-// To remove the pre-applied styling
+//functions to remove the pre-applied styling
 function remove() {
     const stars = document.getElementsByClassName("star");
     for (let i = 0; i < stars.length; i++) {
@@ -184,10 +185,7 @@ function removePopUp() {
     }
 }
 
-function renderEmptyBookDetails(){
-    document.getElementById('selected-book-area').innerHTML = `<h2>No book selected:(</h2>`;
-}
-
+//----------functions to handle the page translation-----------
 //function to translate the page
 function translatePage(language) {
     const elements = document.querySelectorAll('[data-translate]');
@@ -195,16 +193,19 @@ function translatePage(language) {
         const key = el.getAttribute('data-translate');
         el.textContent = translations[key][language];
     });
+    if (language === "he") {
+        document.body.style.fontFamily = "'Fredoka', sans-serif"; 
+    }
 }
 
-// Function to change language based on combo box selection
+// Function to change language and font based on combo box selection
 function changeLanguage() {
     const selectedLanguage = document.getElementById('language-select').value;
     
     if (selectedLanguage === "he") {
-        document.body.style.fontFamily = "'Fredoka', sans-serif"; // Change to Fredoka for Hebrew
+        document.body.style.fontFamily = "'Fredoka', sans-serif"; 
     } else {
-        document.body.style.fontFamily = "'Outfit', sans-serif"; // Change back to Outfit for English
+        document.body.style.fontFamily = "'Outfit', sans-serif"; 
     }
     
     setLanguage(selectedLanguage);
@@ -215,10 +216,3 @@ function setLanguage(language) {
     localStorage.setItem('preferredLanguage', language);
     translatePage(language);
 }
-
-// Load the saved language from localStorage (or default to English)
-window.onload = function() {
-    const language = localStorage.getItem('preferredLanguage') || 'en';
-    document.getElementById('language-select').value = language;
-    translatePage(language);
-};
