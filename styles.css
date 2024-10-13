@@ -8,6 +8,10 @@ body {
     font-family: 'Outfit', sans-serif;
 }
 
+:lang(he) {
+    font-family: "Fredoka", sans-serif;font-family: 'Alef', sans-serif;
+}
+
 button {
     padding: 10px 20px;
     margin-bottom: 10px;
@@ -135,7 +139,7 @@ button:hover {
 .book-list-header{
     font-weight: bold;
     padding: 20px;
-    background-color:cornflowerblue;
+    background-color:rgb(71, 163, 255);
     color: #333;
 }
 .sort-button:hover{
@@ -161,6 +165,13 @@ button:hover {
 .pagination a:hover {
     background-color: dodgerblue;
     cursor: pointer;
+}
+
+.pagination .current-page {
+    background-color: dodgerblue;
+    color: white; 
+    font-weight: bold; 
+    pointer-events: none; /* Prevent clicking on the current page */
 }
 
 .tooltip-btn {
@@ -192,7 +203,7 @@ button:hover {
 
 /* Pop up window classes */
 .pop-up-window {
-    display: hidden;
+    display:none;
     justify-content: center;
     align-items: center; 
     position: fixed; 
@@ -268,7 +279,7 @@ form input[type="number"] {
     margin: 0 1rem;
 }
 
-.star {
+.star, .star-pop-up {
     font-size: 5vh;
     cursor: pointer;
 }
@@ -291,4 +302,30 @@ form input[type="number"] {
 
 .five {
     color: rgb(24, 159, 14);
+}
+
+.language-selector {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f9f9f9; 
+    font-size: 16px; 
+    color: #333; 
+    appearance: none; 
+    cursor: pointer;
+}
+
+.language-selector::after {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f9f9f9; 
+    font-size: 16px; 
+    color: #333; 
+    border: none;
+    appearance: none; 
+    cursor: pointer;
+}
+
+.language-selector option {
+    background-color: #fff; 
+    color: #333;
 }

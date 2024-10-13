@@ -14,7 +14,7 @@ function getBookRow(book) {
             <p>${book.id}</p>
             <a onclick="renderDetails(${book.id})">${book.title}</a>
             <p>$${book.price}</p>
-            <a onclick="openPopUpForUpdate(${book.id})">update</a>
+            <a data-translate="update" onclick="openPopUpForUpdate(${book.id})">update</a>
             <a onclick="deleteBook(${book.id})">🗑️</a>
         </div>
     `;
@@ -37,12 +37,14 @@ function renderPaginationControls(totalBooks) {
     paginationContainer.innerHTML = '';
 
     for (let i = 1; i <= totalPages; i++) {
-        paginationContainer.innerHTML += `<a onclick="goToPage(${i})">${i}</a> `;
+        const isActive = i === currentPage ? 'current-page' : '';
+        paginationContainer.innerHTML += `<a class="${isActive}" onclick="goToPage(${i})">${i}</a>`;
     }
 }
 
 function goToPage(page) {
     currentPage = page;
+    renderPaginationControls(books.length);
     renderBooks(books);
 }
 
@@ -55,7 +57,9 @@ function renderDetails(bookId) {
         ${[1, 2, 3, 4, 5].map(n => `
             <span onclick="renderStarsRating(${n}, ${bookId})" class="star ${n <= book.rating ? 'filled' : ''}">★</span>
         `).join('')}
-        <h3 id="output">Rating is: ${book.rating}/5</h3>
+        <h3 id="output">
+            <span data-translate="ratingLabel">Rating is:</span> <span id="book-rating-output">${book.rating}/5</span>
+        </h3>        
         </div>
     `;
 
@@ -64,7 +68,7 @@ function renderDetails(bookId) {
         <img src="${book.imageUrl}" alt="${book.title}">       
         <div class="card-details">
             <div class="text-container">
-                <p>Price: $${book.price}</p>
+                <p><span data-translate="priceLabel">Price: </span><span>  $${book.price}  </span></p>
                 ${starRatingHtml} <!-- Insert star rating HTML -->
             </div>
         </div>`;
@@ -84,9 +88,10 @@ function openPopUpForCreate() {
     document.getElementById('book-price').value = '';
     document.getElementById('stars-container').innerHTML =`<div class="stars">
     ${[1, 2, 3, 4, 5].map(n => `
-        <span onclick="gfg(${n})" class="star star-pop-up">★</span>
+        <span onclick="renderStarsForPopUpWindow(${n})" class="star-pop-up">★</span>
     `).join('')}
     </div>`;
+    document.getElementById('book-rating').value = 0;
     document.getElementById('book-image-url').value = '';
     document.getElementById('book-window').style.display = 'block'; 
 }
@@ -99,9 +104,14 @@ function openPopUpForUpdate(id) {
         document.getElementById('book-id').value = book.id;
         document.getElementById('book-title').value = book.title;
         document.getElementById('book-price').value = book.price;
-        document.getElementById('book-rating').value = book.rating;
+        document.getElementById('stars-container').innerHTML =`<div class="stars">
+        ${[1, 2, 3, 4, 5].map(n => `
+            <span onclick="renderStarsForPopUpWindow(${n})" class="star-pop-up">★</span>
+        `).join('')}
+        </div>`;
         document.getElementById('book-image-url').value = book.imageUrl;
-        document.getElementById('book-window').style.display = 'block';  
+        document.getElementById('book-window').style.display = 'block'; 
+        renderStarsForPopUpWindow(book.rating); // initialize the star rating 
     }
 }
 
@@ -115,16 +125,10 @@ function closePopUp() {
 
 
 // stuff to handle the star rating
-// To access the stars
-let stars = 
-    document.getElementsByClassName("star");
-let output = 
-    document.getElementById("output");
-
 // Function to update rating
 function renderStarsRating(n, bookId) {
     const stars = document.getElementsByClassName("star");
-    const output = document.getElementById("output");
+    const output = document.getElementById("book-rating-output");
 
     remove(); // Remove previous star styles
     let cls;
@@ -137,7 +141,7 @@ function renderStarsRating(n, bookId) {
         stars[i].className = "star " + cls;
     }
     
-    output.innerText = "Rating is: " + n + "/5"; // Update the rating text
+    output.innerText =  n + "/5"; // Update the rating text
 
     // Update the book's rating in the global books array
     const bookIndex = books.findIndex(book => book.id === bookId);
@@ -145,6 +149,24 @@ function renderStarsRating(n, bookId) {
         books[bookIndex].rating = n; // Update the rating
         saveObjToLS('books', books); // Save updated books list to local storage
     }
+}
+
+function renderStarsForPopUpWindow(n) {
+    const stars = document.getElementsByClassName("star-pop-up");
+    const hiddenRating = document.getElementById("book-rating");
+
+    removePopUp(); // Remove previous star styles
+    let cls;
+    for (let i = 0; i < n; i++) {
+        if (n == 1) cls = "one";
+        else if (n == 2) cls = "two";
+        else if (n == 3) cls = "three";
+        else if (n == 4) cls = "four";
+        else if (n == 5) cls = "five";
+        stars[i].className = "star-pop-up " + cls;
+    }
+    
+    hiddenRating.value = n; // Update the hidden input with the selected rating
 }
 
 // To remove the pre-applied styling
@@ -155,12 +177,48 @@ function remove() {
     }
 }
 
-function setRating(value) {
-    const ratingInput = document.getElementById('book-rating');
-    ratingInput.value = value; // Update the hidden input with the selected rating
-    gfg(value); // Update the star rating
+function removePopUp() {
+    const stars = document.getElementsByClassName("star-pop-up");
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].className = "star-pop-up"; // Reset star classes to default
+    }
 }
 
 function renderEmptyBookDetails(){
     document.getElementById('selected-book-area').innerHTML = `<h2>No book selected:(</h2>`;
 }
+
+//function to translate the page
+function translatePage(language) {
+    const elements = document.querySelectorAll('[data-translate]');
+    elements.forEach(el => {
+        const key = el.getAttribute('data-translate');
+        el.textContent = translations[key][language];
+    });
+}
+
+// Function to change language based on combo box selection
+function changeLanguage() {
+    const selectedLanguage = document.getElementById('language-select').value;
+    
+    if (selectedLanguage === "he") {
+        document.body.style.fontFamily = "'Fredoka', sans-serif"; // Change to Fredoka for Hebrew
+    } else {
+        document.body.style.fontFamily = "'Outfit', sans-serif"; // Change back to Outfit for English
+    }
+    
+    setLanguage(selectedLanguage);
+}
+
+// Function to set the language and save it in localStorage
+function setLanguage(language) {
+    localStorage.setItem('preferredLanguage', language);
+    translatePage(language);
+}
+
+// Load the saved language from localStorage (or default to English)
+window.onload = function() {
+    const language = localStorage.getItem('preferredLanguage') || 'en';
+    document.getElementById('language-select').value = language;
+    translatePage(language);
+};

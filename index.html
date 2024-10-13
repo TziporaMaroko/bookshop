@@ -5,35 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book shop</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Fredoka:wght@300..700&family=Alef:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div>
         <header class="header">
-            <h1 class="title">Hello Book Lovers!</h1>
+            <h1 class="title" data-translate="header">Hello Book Lovers!</h1>
             <div class="bar">
-                <a onclick="openPopUpForCreate()">Add New Book</a>
-                <a onclick="loadDumpData()">Load Data</a>
+                <a data-translate="addBook" onclick="openPopUpForCreate()">Add New Book</a>
+                <div class="right-container">
+                    <a data-translate="loadData" onclick="loadDumpData()">Load Data</a>
+                    <select id="language-select" class="language-selector" onchange="changeLanguage()">
+                        <option value="en">English</option>
+                        <option value="he">עברית</option>
+                    </select>
+                </div>
             </div>
         </header>
         <div class="main-container">  
             <div id="books-container" class="book-list-container">
                 <div class="book-list-header table">
-                    <div>Id</div>
-                    <div class="sort-button tooltip-btn" onclick="sortByTitle()">Title
-                        <span class="tooltip-text">Sort by title</span>
+                    <div data-translate="id">Id</div>
+                    <div class="sort-button tooltip-btn" data-translate="title" onclick="sortByTitle()">Title
+                        <span class="tooltip-text" data-translate="sortByTitle">Sort by title</span>
                     </div>
-                    <div class="sort-button tooltip-btn" onclick="sortByPrice()">Price
-                        <span class="tooltip-text">Sort by price</span>
+                    <div class="sort-button tooltip-btn" data-translate="price" onclick="sortByPrice()">Price
+                        <span class="tooltip-text" data-translate="sortByPrice">Sort by price</span>
                     </div>
-                    <div>Action</div>
-                    <div>Action</div>
+                    <div data-translate="action">Action</div>
+                    <div data-translate="action">Action</div>
                 </div>
                 <div id="book-list-container"></div>
                 <div id="pagination-controls" class="pagination"></div>
             </div>
             <div id="selected-book-area" class="book-card">
-                <h2>Oops.. No book selected yet:(</h2>
+                <h2 data-translate="noBookSelected">Oops.. No book selected yet:(</h2>
             </div>
         </div>
         <footer class="footer">
@@ -43,24 +49,28 @@
     <div id="book-window" class="pop-up-window">
         <div class="pop-up-content">
             <span class="close" onclick="closePopUp()">&times;</span>
-            <h2 id="pop-up-title">Add New Book</h2>
+            <h2 id="pop-up-title" data-translate="addBook">Add New Book</h2>
             <form id="book-form" onsubmit="saveBook(event)">
                 <input type="hidden" id="book-id" />
-                <label for="book-title">Title:</label>
+                <label for="book-title" data-translate="bookTitle">Title:</label>
                 <input type="text" id="book-title" placeholder="Enter book title" required />
-                <label for="book-price">Price:</label>
-                <input type="number" id="book-price" placeholder="Enter book price" step="0.01" required /> <!-- Allow decimal values -->
-                <label for="book-rating">Rating:</label>
-                <div id="stars-container">
-                    
-                </div>
-                <input type="hidden" id="book-rating" /> <!-- Hidden input to hold the selected rating value -->
-                <label for="book-image-url">Image Url:</label>
+                
+                <label for="book-price" data-translate="bookPrice">Price:</label>
+                <input type="number" id="book-price" placeholder="Enter book price" step="0.01" required />
+                
+                <label for="book-rating" data-translate="bookRating">Rating:</label>
+                <div id="stars-container"></div>
+                <input type="hidden" id="book-rating" />
+                
+                <label for="book-image-url" data-translate="bookImageUrl">Image Url:</label>
                 <input type="text" id="book-image-url" placeholder="Enter image url" required />
-                <button type="submit">Save</button>
+                
+                <button type="submit" data-translate="save">Save</button>
             </form>
         </div>
     </div>
+    
+    <script src="translations.js"></script>
     <script src="view.js"></script>
     <script src="dump.js"></script>
     <script src="controller.js"></script>

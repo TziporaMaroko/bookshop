@@ -5,7 +5,9 @@ function createBook({title, price, imageUrl, rating}){
     const newBook = { id, title, price, imageUrl, rating };
     
     books.push(newBook);  
-    saveObjToLS('books', books);  
+    saveObjToLS('books', books); 
+    sortByTitle();
+    sortByPrice(); 
     renderBooks(books);
     closePopUp();   
 }
@@ -23,6 +25,8 @@ function updateBook({ id, title, price, imageUrl, rating }){
         books[bookIndex].imageUrl = imageUrl;
         books[bookIndex].rating = rating;  
         saveObjToLS('books', books);  
+        sortByTitle();
+        sortByPrice();
         renderBooks(books); 
         renderDetails(Number(id));
         closePopUp();  
